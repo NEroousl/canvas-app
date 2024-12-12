@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Drawing App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #canvas {
+      border: 2px solid #000;
+      cursor: crosshair;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 20px;
+    }
+
+    .control-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .control-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="flex items-center">
+    <!-- Canvas -->
+    <canvas id="canvas" width="1000" height="600"></canvas>
+    
+    <!-- Controls -->
+    <div class="controls">
+      <button id="clearCanvas" class="control-button">Clear Canvas</button>
+      <button id="changeColor" class="control-button">Change Color</button>
+      <button id="changeWidth" class="control-button">Change Line Width</button>
+    </div>
+  </div>
+
+  <script>
+    // Get the canvas and context
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Variables to manage drawing state
+    let drawing = false;
+    let currentColor = '#000000';
+    let lineWidth = 5;
+
+    // Function to start drawing
+    function startDrawing(event) {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(event.offsetX, event.offsetY);
+    }
+
+    // Function to stop drawing
+    function stopDrawing() {
+      drawing = false;
+    }
+
+    // Function to draw on the canvas
+    function draw(event) {
+      if (!drawing) return;
+      ctx.lineTo(event.offsetX, event.offsetY);
+      ctx.strokeStyle = currentColor;
+      ctx.lineWidth = lineWidth;
+      ctx.stroke();
+    }
+
+    // Event listeners for mouse events to draw
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseleave', stopDrawing);
+
+    // Clear Canvas Button
+    document.getElementById('clearCanvas').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Change Color Button
+    document.getElementById('changeColor').addEventListener('click', () => {
+      const newColor = prompt("Enter a color (e.g., 'red', '#ff0000'):");
+      if (newColor) {
+        currentColor = newColor;
+      }
+    });
+
+    // Change Line Width Button
+    document.getElementById('changeWidth').addEventListener('click', () => {
+      const newWidth = prompt("Enter line width (e.g., 5, 10, 15):");
+      if (newWidth && !isNaN(newWidth)) {
+        lineWidth = parseInt(newWidth);
+      }
+    });
+  </script>
+
+</body>
+</html>
