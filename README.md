@@ -29,7 +29,7 @@
 
 You can try out the Canvas application directly by visiting the live demo.
 
-[Try the app live!](#) *(link to demo)*
+[Try the app live!]([#](https://neroousl.github.io/canvas-app/))
 
 ---
 
